@@ -3,19 +3,33 @@ package Server;
 import java.io.*;
 import java.net.*; //for Socket and ServerSocket
 import java.util.*;
-
+import javax.net.ssl.SSLServerSocketFactory;//for replacing ServerSocket with SSL
+import javax.net.ssl.SSLServerSocket;
 
 public class ChatServer {
 
 private static final int PORT =1234;
-private static Set<ClientHandler> clientHandlers = new HashSet<>();
+//threas safe set holding connected client
+private static Set<ClientHandler> clientHandlers = Collections.synchronizedSet(new HashSet<>()) ;
 
 public static void main(String[] args) {
+	
+	//tells java which keystore and password for ssl
+	System.setProperty("javax.net.ssl.keyStore", "server.keystore");
+	System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
+	
 	System.out.println("Chat server started");
-	try(ServerSocket serverSocket = new ServerSocket(PORT)) {
+	
+	//creating SSL server socket
+	SSLServerSocketFactory ssf= (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+	
+	try(SSLServerSocket serverSocket = (SSLServerSocket) ssf.createServerSocket(PORT)) {
+		System.out.println("SSL chat server started on port " + PORT);
+		
+		//accepting client in loop
 		while(true) {
-			Socket socket = serverSocket.accept();
-			System.out.println("New client connected");
+			Socket socket = serverSocket.accept();//returns SSLsocket
+			System.out.println("New SSL client connected " +socket.getRemoteSocketAddress());
 			
 			ClientHandler clientHandler = new ClientHandler(socket);
 			clientHandlers.add(clientHandler);
@@ -27,6 +41,8 @@ public static void main(String[] args) {
 		e.printStackTrace();
 	}
 }
+
+//waits for and sends messages 
 static class ClientHandler implements Runnable{
 	private Socket socket;
 	private PrintWriter out;
@@ -39,6 +55,7 @@ static class ClientHandler implements Runnable{
 	@Override
 	public void run() {
 		try {
+			//input and output 
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
