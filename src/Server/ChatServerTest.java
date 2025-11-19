@@ -1,33 +1,55 @@
-package Server; //Server
-//Current version 1.1 = accepts single connection, reads one line of text, replies, exits connection
-//Single-chat version not yet multi-chat test
-import java.io.*;
-import java.net.*;
+package server; //fake client to test server connection v1.1
 
-public class ChatServerTest {//to do:run chatServer in separate thread
+import java.io.*; //input/output
+import javax.net.ssl.SSLSocketFactory;
+
+import javax.net.ssl.SSLSocket;
+
+public class ChatServerTest {
 
 	private static final int PORT = 1234;
-	//private Socket socket;
-	//private static PrintWriter out;
-	//private static BufferedReader in;
-
-	public static void main(String[] args) { //currently a server socket test
-		System.out.println("Starting serverSocket test on:" + PORT);
-		try(ServerSocket serverSocket = new ServerSocket(PORT)) { //connection auto closes
-			System.out.println("ChatServer running, currently no connections");
-			try(Socket socket = serverSocket.accept()) {//testing client connection - waiting for client then accept conn & return socket obj(specific client conn)
-				System.out.println("New client connected"); //confirms conn is real 
-				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));//read byte messages from client
-				PrintWriter out = new PrintWriter(socket.getOutputStream(), true); //write messages send to client - e.g. broadcast msgs from others
-				String message = in.readLine(); //reads one line at a time from client > could also check for disconnection before message sent > what would output be??
-				//if(message==null) > detect disconnection
-				System.out.println("Client sent:" + message);
-				out.println("This is the Server."); //read by client 
-			}
+	private static final String HOST = "localhost";
+	public static void main(String[] args) {
+		
+		//trust server's SSL certificate as links java to correct SSL keystore & password
+		System.setProperty("javax.net.ssl.trustStore", "server.keystore");
+		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+		
+		System.out.println("Starting SSL client test for Level 2 on port: " + PORT); //print confirms certificate linked and test starting
+		
+		try {
+			//Create SSL socket
+            SSLSocketFactory ssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            try (SSLSocket socket = (SSLSocket) ssf.createSocket(HOST, PORT)) {
+            	System.out.println("Connected to SSL multi-chat server."); //confirm connection
+            	
+            	PrintWriter out = new PrintWriter(socket.getOutputStream(), true); //(configuring) write & broadcast messages to server
+            	BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //(configuring) read byte messages from server
+            	//read and send messages
+            	String serverMsg = in.readLine(); //read initial server welcome message "Welcome Enter name:"
+            	System.out.println("Server: " + serverMsg);
+            	out.println("Tester"); //send test username to server
+            	out.println("Hello from the Level 2 Test Client."); //send message to server
+            	System.out.println("Message sent.");
+            	
+            	String receivedMsg;
+            	while ((receivedMsg = in.readLine()) !=null) {
+            		System.out.println("Received: " + receivedMsg);
+            		break; //exit after response
+            	}
+            	
+            }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("ChatServerTest completed"); //only 1 client atm > loop accept() for multi > thread per client??
+		System.out.println("SSL test completed for Level 2!");
 	}
 }
+/*Notes:
+ * Tester needs to use same keystore > pointing truststore to same file.
+ * Test Client for Level 2 also uses SSLSocketFactory instead of Socket to establish a connection.
+ * It follows a simple flow of reading the welcome message sent by the server ("Welcome Enter name:"), sending a username back and then a message.
+ * A few limitations: Version 1 doesn't handle multiple messages, continuous chatting and only reads one broadcast then exits.
+ * Plan to upgrade and convert to JUnit test so it can automatically run rather than manually.
+ * To Do: try stress testing via spawning multiple clients
+ * */
