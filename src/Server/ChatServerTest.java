@@ -1,4 +1,4 @@
-package server; //fake client to test server connection v1.1
+package Server; //fake client to test server connection v1.1
 
 import java.io.*; //input/output
 import javax.net.ssl.SSLSocketFactory;
@@ -11,10 +11,10 @@ public class ChatServerTest {
 	private static final String HOST = "localhost";
 	public static void main(String[] args) {
 		
-		//trust server's SSL certificate as links java to correct SSL keystore & password
-		System.setProperty("javax.net.ssl.trustStore", "server.keystore");
+		//trust server's SSL certificate as links java to correct SSL store & password
+		System.setProperty("javax.net.ssl.trustStore", "client.truststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-		
+
 		System.out.println("Starting SSL client test for Level 2 on port: " + PORT); //print confirms certificate linked and test starting
 		
 		try {
@@ -52,4 +52,8 @@ public class ChatServerTest {
  * A few limitations: Version 1 doesn't handle multiple messages, continuous chatting and only reads one broadcast then exits.
  * Plan to upgrade and convert to JUnit test so it can automatically run rather than manually.
  * To Do: try stress testing via spawning multiple clients
+ * 
+ * Other:
+ * client.truststore contains trusted certificates
+ * server.keystore contains server's private key
  * */
