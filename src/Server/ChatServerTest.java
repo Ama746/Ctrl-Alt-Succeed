@@ -15,6 +15,7 @@ public class ChatServerTest {
 		System.setProperty("javax.net.ssl.trustStore", "client.truststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 
+		System.out.println("Certificate confirmed in truststore.");
 		System.out.println("Starting SSL client test for Level 2 on port: " + PORT); //print confirms certificate linked and test starting
 		
 		try {
@@ -49,6 +50,7 @@ public class ChatServerTest {
  * Tester needs to use same keystore > pointing truststore to same file.
  * Test Client for Level 2 also uses SSLSocketFactory instead of Socket to establish a connection.
  * It follows a simple flow of reading the welcome message sent by the server ("Welcome Enter name:"), sending a username back and then a message.
+ * Version 1 doesn't handle multiple messages, continuous chatting and only reads one broadcast message from the server before exiting.
  * A few limitations: Version 1 doesn't handle multiple messages, continuous chatting and only reads one broadcast then exits.
  * Plan to upgrade and convert to JUnit test so it can automatically run rather than manually.
  * To Do: try stress testing via spawning multiple clients
