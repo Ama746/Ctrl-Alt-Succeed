@@ -62,15 +62,14 @@ static class ClientHandler implements Runnable{
 			out.println("Welcome Enter name:");
 			String name = in.readLine();
 			ChatServer.broadcastMessage(name + "joined the chat", this);
-			
 			String message;
 			while ((message = in.readLine()) != null) {
-				System.out.println(name + ":" + message);
-				ChatServer.broadcastMessage(name + ": " + message, this);
-				
+			    System.out.println(name + ": " + message);
+			    ChatServer.broadcastMessage(name + ": " + message, this);
 			}
+
 			
-		} catch(IOException e) {
+			} catch(IOException e) {
 			System.out.println("client disconnected");
 		} finally {
 			ChatServer.removeClient(this);
