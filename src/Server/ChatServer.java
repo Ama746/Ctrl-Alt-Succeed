@@ -15,7 +15,7 @@ private static Set<ClientHandler> clientHandlers = Collections.synchronizedSet(n
 public static void main(String[] args) {
 	
 	//tells java which keystore and password for ssl
-	System.setProperty("javax.net.ssl.keyStore", "C:\stores");
+	System.setProperty("javax.net.ssl.keyStore", "C:\\stores");
 	System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
 	
 	System.out.println("Chat server started");
@@ -61,7 +61,7 @@ static class ClientHandler implements Runnable{
 			
 			out.println("Welcome Enter name:");
 			String name = in.readLine();
-			ChatServer.broadcastMessage(name + "joined the chat", this);
+			ChatServer.broadcastMessage(name + " joined the chat", this);
 			String message;
 			while ((message = in.readLine()) != null) {
 			    System.out.println(name + ": " + message);

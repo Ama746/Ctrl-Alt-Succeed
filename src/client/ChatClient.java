@@ -12,7 +12,7 @@ public class ChatClient {
 	public static void main(String[] args){
 		
 		//tells java which  truststore for client to trust server certificate 
-		System.setProperty("javax.net.ssl.trustStore", "C:\stores");
+		System.setProperty("javax.net.ssl.trustStore", "C:\\stores");
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 		
 		//creating SSL  socket
