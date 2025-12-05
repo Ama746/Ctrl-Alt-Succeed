@@ -3,8 +3,8 @@ package Server;
 import java.io.*;
 import java.net.*; //for Socket and ServerSocket
 import java.util.*;
-import javax.net.ssl.SSLServerSocketFactory;//for replacing ServerSocket with SSL
-import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocket;//for replacing ServerSocket with SSL
+import javax.net.ssl.SSLServerSocketFactory;
 
 public class ChatServer {
 
@@ -15,7 +15,7 @@ private static Set<ClientHandler> clientHandlers = Collections.synchronizedSet(n
 public static void main(String[] args) {
 	
 	//tells java which keystore and password for ssl
-	System.setProperty("javax.net.ssl.keyStore", "C:\\stores");
+	System.setProperty("javax.net.ssl.keyStore", "src/resources/server.keystore");
 	System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
 	
 	System.out.println("Chat server started");

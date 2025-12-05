@@ -1,9 +1,8 @@
 package client;
 
 import java.io.*;
-import java.net.*;
-import javax.net.ssl.SSLSocket; // replacing serversocket with ssl
-import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory; // replacing serversocket with ssl
 
 public class ChatClient {
 	private static final int PORT = 1234;
@@ -12,7 +11,7 @@ public class ChatClient {
 	public static void main(String[] args){
 		
 		//tells java which  truststore for client to trust server certificate 
-		System.setProperty("javax.net.ssl.trustStore", "C:\\stores");
+		System.setProperty("javax.net.ssl.trustStore", "src/resources/client.truststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 		
 		//creating SSL  socket
