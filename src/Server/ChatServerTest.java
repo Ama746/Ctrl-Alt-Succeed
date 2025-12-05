@@ -12,7 +12,7 @@ public class ChatServerTest {
 	public static void main(String[] args) {
 		
 		//trust server's SSL certificate as links java to correct SSL store & password
-		System.setProperty("javax.net.ssl.trustStore", "client.truststore");
+		System.setProperty("javax.net.ssl.trustStore", "resources/client.truststore");
 		System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 
 		System.out.println("Certificate confirmed in truststore.");

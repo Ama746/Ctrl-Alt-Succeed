@@ -1,0 +1,38 @@
+/*{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "ChatServer",
+            "request": "launch",
+            "mainClass": "CS2SNS_Project/Server.ChatServer",
+            "projectName": "CS2SNS_Project"
+        },
+        {
+            "type": "jdk",
+            "request": "launch",
+            "name": "Launch Java App"
+        }
+    ] 
+
+
+} */
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run ChatServer (from src)",
+      "request": "launch",
+      "mainClass": "Server.ChatServer",
+      "cwd": "${workspaceFolder}/src",
+      "classPaths": [
+        "${workspaceFolder}/bin"
+      ]
+    }
+  ]
+}
+

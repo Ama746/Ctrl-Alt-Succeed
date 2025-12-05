@@ -15,7 +15,7 @@ private static Set<ClientHandler> clientHandlers = Collections.synchronizedSet(n
 public static void main(String[] args) {
 	
 	//tells java which keystore and password for ssl
-	System.setProperty("javax.net.ssl.keyStore", "src/resources/server.keystore");
+	System.setProperty("javax.net.ssl.keyStore", "resources/server.keystore");
 	System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
 	
 	System.out.println("Chat server started");
