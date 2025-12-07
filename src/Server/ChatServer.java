@@ -47,6 +47,10 @@ static class ClientHandler implements Runnable{
 	private Socket socket;
 	private PrintWriter out;
 	private BufferedReader in;
+
+	//tracks messages for level 3
+	private long lastMessageTime = 0;
+	private int spamWarnings = 0;
 	
 	public ClientHandler(Socket socket) {
 		this.socket = socket;
@@ -64,8 +68,32 @@ static class ClientHandler implements Runnable{
 			ChatServer.broadcastMessage(name + " joined the chat", this);
 			String message;
 			while ((message = in.readLine()) != null) {
-			    System.out.println(name + ": " + message);
-			    ChatServer.broadcastMessage(name + ": " + message, this);
+			    /* System.out.println(name + ": " + message);
+			    ChatServer.broadcastMessage(name + ": " + message, this); 
+				*/
+
+				//length limit- prevents resource exhaustion
+				if(message.length() > 100){
+					out.println("Message too long. Limit to 100 characters.");
+					continue;
+				}
+
+				//rate limiting -preventing flooding 
+				long now = System.currentTimeMillis();
+				if(now - lastMessageTime < 300){
+					spamWarnings ++;
+					out.println("You are sending messages too quickly. Warning " + spamWarnings + "/5");
+
+					if(spamWarnings >=5){
+						out.println("You have been disconnected for spamming.");
+						socket.close();
+						return; //exit loop and disconnect
+					}
+					continue;
+				}
+				lastMessageTime = now;
+				System.out.println(name + ": " + message);
+				ChatServer.broadcastMessage(name + ": " + message, this);
 			}
 
 			
