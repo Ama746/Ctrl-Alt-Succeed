@@ -25,7 +25,6 @@ public class ChatServerTest {//to do:run chatServer in separate thread
 				out.println("This is the Server."); //read by client 
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("ChatServerTest completed"); //only 1 client atm > loop accept() for multi > thread per client??
