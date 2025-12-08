@@ -6,7 +6,7 @@ import javax.net.ssl.SSLSocketFactory; // replacing serversocket with ssl
 
 public class ChatClient {
 	private static final int PORT = 1234;
-	private static final String SERVER_IP = "localhost";
+	private static final String SERVER_IP = "192.168.56.1";
 
 	public static void main(String[] args){
 		
