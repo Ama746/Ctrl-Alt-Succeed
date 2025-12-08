@@ -25,6 +25,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ChatClient",
+      "request": "launch",
+      "mainClass": "client.ChatClient",
+      "projectName": "CS2SNS_Project"
+    },
+    {
+      "type": "java",
       "name": "ChatServerTest",
       "request": "launch",
       "mainClass": "Server.ChatServerTest",
